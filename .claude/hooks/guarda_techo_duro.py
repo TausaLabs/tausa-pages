@@ -3,7 +3,7 @@
 
 "Nombrar no es leer", rehecho -- 2026-08-30 (TEC-0059, gate 128,
 id_acto TEC-0059-rehacer-guarda-nombrar-no-es-leer-20260830, aprobador
-steve, message_id 128, verificado por tausa-orquestador con la cuádrupla
+el dueño, message_id 128, verificado por tausa-orquestador con la cuádrupla
 exacta, exit 0, sin tubería). Reemplaza la reversión de contención del
 mismo día: el intento anterior de "nombrar no es leer" tenía un bypass
 real (dictamen de tausa-auditor) -- un valor citado con sustitución de
@@ -616,7 +616,7 @@ _RE_G2_VAR_ESCRITA = re.compile(
     r"setenvironmentvariable\s*\(\s*" + _G2_VARS + r"\b|"
     r"\bpop\s*\(\s*" + _G2_VARS + r"\b|"
     r"\bdel\s+os\.environ\s*\[\s*" + _G2_VARS + r"\b")
-# G2-bis (pendiente de D6): si Steve no lo aprueba, se borran esta constante
+# G2-bis (pendiente de D6): si el dueño no lo aprueba, se borran esta constante
 # y su bloque en _g2_motivo, sin tocar el resto.
 _RE_G2_GATE_RESOLVE = re.compile(r"gate[-_]?resolve")
 _RE_G2BIS = re.compile(
