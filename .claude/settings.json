@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "GH_CONFIG_DIR": "C:/Workspaces/Tausa_Labs/.tmp/orca_worker_gh_vacio",
+    "GH_TOKEN": "",
+    "GITHUB_TOKEN": "",
+    "GH_ENTERPRISE_TOKEN": "",
+    "GITHUB_ENTERPRISE_TOKEN": "",
+    "GIT_TERMINAL_PROMPT": "0",
+    "GCM_INTERACTIVE": "never",
+    "GIT_ASKPASS": "",
+    "SSH_ASKPASS": "",
+    "GIT_CONFIG_COUNT": "3",
+    "GIT_CONFIG_KEY_0": "credential.helper",
+    "GIT_CONFIG_VALUE_0": "",
+    "GIT_CONFIG_KEY_1": "credential.https://github.com.helper",
+    "GIT_CONFIG_VALUE_1": "",
+    "GIT_CONFIG_KEY_2": "credential.https://gist.github.com.helper",
+    "GIT_CONFIG_VALUE_2": "",
+    "PYTHONUTF8": "1"
+  },
+  "permissions": {
+    "deny": [
+      "Read(//**/Agente_Accesos/**)",
+      "Edit(//**/Agente_Accesos/**)",
+      "Read(//**/gates_telegram/**)",
+      "Edit(//**/gates_telegram/**)",
+      "Read(//**/Obsidian/**)",
+      "Edit(//**/Obsidian/**)",
+      "Read(//**/Accesos/**)",
+      "Edit(//**/Accesos/**)",
+      "Read(//c/Workspaces/Tausa_Labs/Tausa_Labs/Agente_Accesos/**)",
+      "Edit(//c/Workspaces/Tausa_Labs/Tausa_Labs/Agente_Accesos/**)",
+      "Read(//c/Workspaces/Tausa_Labs/Tausa_Labs/gates_telegram/**)",
+      "Edit(//c/Workspaces/Tausa_Labs/Tausa_Labs/gates_telegram/**)",
+      "Read(//c/Workspaces/Tausa_Labs/Obsidian/**)",
+      "Edit(//c/Workspaces/Tausa_Labs/Obsidian/**)",
+      "Read(~/AppData/Roaming/orca/**)",
+      "Edit(~/AppData/Roaming/orca/**)",
+      "Read(~/.orca/**)",
+      "Edit(~/.orca/**)",
+      "Read(~/AppData/Roaming/GitHub CLI/**)",
+      "Edit(~/AppData/Roaming/GitHub CLI/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Edit(~/.claude/.credentials.json)",
+      "Read(~/.git-credentials)",
+      "Edit(~/.git-credentials)",
+      "Edit(//c/Workspaces/Tausa_Labs/.tmp/orca_worker_gh_vacio/**)",
+      "Edit(//**/.claude/settings.json)",
+      "Edit(//**/.claude/settings.local.json)",
+      "Edit(//**/.claude/hooks/**)",
+      "Edit(//**/.git/config)",
+      "Edit(//**/.git/hooks/**)",
+      "Edit(//**/.tausa/**)",
+      "Bash(git push *)",
+      "Bash(git remote *)",
+      "Bash(git credential *)",
+      "Bash(gh *)",
+      "Bash(gh.exe *)",
+      "PowerShell(git push *)",
+      "PowerShell(git remote *)",
+      "PowerShell(git credential *)",
+      "PowerShell(gh *)",
+      "PowerShell(gh.exe *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/guarda_revisor.py"],
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/bloquear_edicion_agentes_sin_encargo.py"],
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Edit|Write|Bash|PowerShell|Grep|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/guarda_techo_duro.py"],
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/sello_atribucion.py"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/sello_atribucion.py"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

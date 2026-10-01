@@ -1,0 +1,17 @@
+# Estado efímero: nunca se versiona (mismo criterio que el entorno vivo del
+# que nace esta plantilla, ver README.md "Origen").
+.tmp/
+__pycache__/
+*.pyc
+
+# Marcador de rol de sesión (TEC-0176): lo escribe el Tech Lead en el
+# worktree de un revisor; nunca entra en un commit.
+.tausa/
+
+# Nunca credenciales ni secretos dentro de este repo.
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+token.json
