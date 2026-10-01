@@ -33,8 +33,10 @@ sustituir nada, y el argv resultante se conoce leyendo la gramática. Dentro de
   `diff` con `--no-ext-diff --no-textconv`, `blame --no-textconv` y
   `rev-parse [--short] HEAD`. Sin `status`: puede ejecutar `core.fsmonitor` y
   filtros `clean` de la config. Sin opciones globales de git.
-- orca: `send` de `worker_done` o `escalation` (sin `--to`, `--payload`,
-  `--report-path`, `--files-modified`, `--environment`, `--pairing-code`...),
+- orca: `send` de `worker_done` o `escalation`, con `--dispatch-capability` opcional
+  (`dcap_` y 43 caracteres base64url, TEC-0182: Orca la exige, medido en TEC-0181 T3R) y
+  sin `--to`, `--payload`, `--report-path`, `--files-modified`, `--environment`,
+  `--pairing-code`...),
   `check [--peek] [--json]` y `dispatch-show --task <id> --preamble [--json]`.
 - La única ruta que entra por Bash es la de `git diff|blame -- RUTA`: sin `/` ni
   `-` inicial, sin segmentos vacíos, `.` o `..`, y nunca bajo `.tausa`.
@@ -174,7 +176,9 @@ ID = r"[A-Za-z0-9_-]{1,64}"
 HANDLE = r"[A-Za-z0-9_.:@-]{1,80}"
 TXT = r"'[^'\x00-\x08\x0b-\x1f\x7f]*'"  # admite \t y \n; niega ' y \r
 NOEXT = r"--no-ext-diff --no-textconv"
-DESTINO = rf" --task-id {ID} --dispatch-id {ID}(?: --from {HANDLE})? --subject {TXT} --body {TXT}"
+CAP = r"dcap_[A-Za-z0-9_-]{43}"  # dcap_ + base64url de 32 bytes, como lo emite Orca (TEC-0182)
+DESTINO = (rf" --task-id {ID} --dispatch-id {ID}(?: --dispatch-capability {CAP})?(?: --from {HANDLE})?"
+           rf" --subject {TXT} --body {TXT}")
 
 PLANTILLAS = (
     ("git-log", rf"git log (?:{FMT}|--oneline)(?: -n {N})?(?: {RANGO}| {REF})?"),
